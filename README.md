@@ -40,4 +40,4 @@ Publie le contenu de `dist/` sur la branche `gh-pages` (via une action GitHub ou
 
 ## Icônes PWA
 
-Les icônes dans `public/icons/` sont générées par `node scripts/generate-icons.cjs` (icônes provisoires — à remplacer par de vrais visuels si besoin).
+Les icônes dans `public/icons/` (favicons, apple-touch-icon, icônes manifest 192/512) sont les visuels définitifs du monogramme "M".

@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icons/favicon.svg'],
+      includeAssets: ['icons/favicon-16.png', 'icons/favicon-32.png', 'icons/apple-touch-icon-180.png'],
       manifest: {
         name: 'Miracle Routine',
         short_name: 'Miracle Routine',
