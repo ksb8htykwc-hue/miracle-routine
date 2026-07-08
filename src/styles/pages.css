@@ -3,11 +3,7 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 13px 0;
-}
-
-.routine-row + .routine-row {
-  border-top: 1px solid var(--line);
+  padding: 15px 4px;
 }
 
 .routine-row__main {
@@ -50,20 +46,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 26px 18px 22px;
+  gap: 4px;
+  padding: 28px 18px 30px;
   text-align: center;
 }
 
-.home-hero__caption {
+.home-hero__milestone {
   font-size: 12.5px;
   color: var(--text-secondary);
-}
-
-.home-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
   margin-top: 14px;
 }
 
@@ -98,8 +88,8 @@
   width: 100%;
   margin-top: 6px;
   color: var(--negative);
-  border-color: var(--negative-dim);
-  background: transparent;
+  background: var(--negative-dim);
+  box-shadow: none;
 }
 
 /* ---------- Calendrier ---------- */
@@ -111,10 +101,10 @@
 }
 
 .cal-nav-btn {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 1px solid var(--line);
+  border: none;
   background: var(--surface);
   color: var(--text);
   display: flex;
@@ -122,12 +112,17 @@
   justify-content: center;
   cursor: pointer;
   font-size: 16px;
+  box-shadow: 4px 4px 9px var(--sh-dark), -3px -3px 8px var(--sh-light);
+}
+
+.cal-nav-btn:active {
+  box-shadow: inset 2px 2px 5px var(--sh-dark), inset -2px -2px 5px var(--sh-light);
 }
 
 .cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
+  gap: 7px;
 }
 
 .cal-weekday {
@@ -142,7 +137,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   font-size: 12.5px;
   font-weight: 500;
   position: relative;
@@ -156,6 +151,7 @@
 .cal-day--full {
   background: var(--positive);
   color: var(--bg);
+  box-shadow: 3px 3px 7px var(--sh-dark), -2px -2px 6px var(--sh-light);
 }
 
 .cal-day--partial {
@@ -164,13 +160,14 @@
 }
 
 .cal-day--minimal {
-  background: var(--surface-raised);
-  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: inset 2px 2px 5px var(--sh-dark), inset -2px -2px 5px var(--sh-light);
 }
 
 .cal-day--relapse {
   background: var(--negative);
   color: var(--bg);
+  box-shadow: 3px 3px 7px var(--sh-dark), -2px -2px 6px var(--sh-light);
 }
 
 .cal-day--none {
@@ -204,9 +201,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 13px 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line);
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
   background: var(--surface);
 }
 
@@ -215,7 +211,7 @@
 }
 
 .sport-day--current {
-  border-color: var(--positive);
+  box-shadow: 0 0 0 2px var(--positive);
 }
 
 .sport-day__num {
@@ -223,6 +219,7 @@
   height: 30px;
   border-radius: 50%;
   background: var(--surface-raised);
+  box-shadow: inset 2px 2px 4px var(--sh-dark), inset -1px -1px 3px var(--sh-light);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -263,13 +260,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line);
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
   text-decoration: none;
   color: var(--text);
   font-size: 14px;
   font-weight: 500;
+  box-shadow: 4px 4px 9px var(--sh-dark), -3px -3px 8px var(--sh-light);
 }
 
 /* ---------- Objectifs ---------- */
@@ -282,10 +280,10 @@
 .subtab {
   flex: 1;
   text-align: center;
-  padding: 9px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line);
-  background: transparent;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--surface);
   color: var(--text-secondary);
   font-size: 13px;
   font-weight: 600;
@@ -293,8 +291,8 @@
 }
 
 .subtab--active {
-  background: var(--surface-raised);
   color: var(--text);
+  box-shadow: inset 3px 3px 7px var(--sh-dark), inset -2px -2px 6px var(--sh-light);
 }
 
 .progress-bar {
@@ -316,11 +314,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
-}
-
-.finance-entry + .finance-entry {
-  border-top: 1px solid var(--line);
+  padding: 11px 0;
 }
 
 .finance-form {
@@ -336,11 +330,7 @@
 .prescription-item {
   font-size: 14px;
   line-height: 1.55;
-  padding: 10px 0;
-}
-
-.prescription-item + .prescription-item {
-  border-top: 1px solid var(--line);
+  padding: 11px 0;
 }
 
 /* ---------- Matériel ---------- */
@@ -348,8 +338,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 18px;
-  background: var(--surface-raised);
+  padding: 13px 20px;
+  background: var(--surface);
+  box-shadow: inset 3px 3px 7px var(--sh-dark), inset -2px -2px 6px var(--sh-light);
 }
 
 .sub-label {
@@ -377,11 +368,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding: 13px 0;
-}
-
-.materiel-item + .materiel-item {
-  border-top: 1px solid var(--line);
+  padding: 12px 0;
 }
 
 .materiel-item__main {

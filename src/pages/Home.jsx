@@ -5,7 +5,7 @@ import { computeScore } from '../lib/scoring'
 import { dayOfYear, todayKey } from '../lib/dateUtils'
 import { FLAT_PRESCRIPTIONS } from '../data/prescriptions'
 import { MILESTONES } from '../data/milestones'
-import SplitFlapCounter from '../components/SplitFlapCounter'
+import AbstinenceDial from '../components/AbstinenceDial'
 import Card from '../components/Card'
 import HardMomentModal from '../components/HardMomentModal'
 
@@ -23,30 +23,36 @@ export default function Home() {
   const ancrage = FLAT_PRESCRIPTIONS[dayOfYear() % FLAT_PRESCRIPTIONS.length]
   const nextMilestone = MILESTONES.find(m => m.day > days)
   const daysToMilestone = nextMilestone ? nextMilestone.day - days : null
+  const previousMilestoneDay = [...MILESTONES].reverse().find(m => m.day <= days)?.day || 0
+  const milestoneSpan = nextMilestone ? nextMilestone.day - previousMilestoneDay : 1
+  const milestonePercent = nextMilestone
+    ? ((days - previousMilestoneDay) / milestoneSpan) * 100
+    : 100
 
   return (
     <div>
       <div className="home-hero">
-        <span className="home-hero__caption">Abstinence — jours entiers</span>
-        <SplitFlapCounter value={days} size="lg" />
-        <div className="timeflap">
-          <SplitFlapCounter value={pad(hours)} size="sm" />
-          <span className="text-secondary">:</span>
-          <SplitFlapCounter value={pad(minutes)} size="sm" />
-          <span className="text-secondary">:</span>
-          <SplitFlapCounter value={pad(seconds)} size="sm" />
+        <AbstinenceDial days={days} percent={milestonePercent} />
+        <div className="time-pill">
+          {pad(hours)}<span className="text-secondary">:</span>{pad(minutes)}<span className="text-secondary">:</span>{pad(seconds)}
         </div>
+        <p className="home-hero__milestone">
+          {nextMilestone
+            ? `${daysToMilestone} jour${daysToMilestone > 1 ? 's' : ''} avant « ${nextMilestone.title} »`
+            : 'Tous les paliers sont atteints.'}
+        </p>
       </div>
 
       <Card neo className="home-score-row">
         <div className="dial">
-          <svg width="88" height="88" viewBox="0 0 88 88">
-            <circle cx="44" cy="44" r="38" fill="none" stroke="var(--line)" strokeWidth="8" />
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle cx="40" cy="40" r="34" fill="none" stroke="var(--line)" strokeWidth="7" />
             <circle
-              cx="44" cy="44" r="38" fill="none"
-              stroke="var(--positive)" strokeWidth="8" strokeLinecap="round"
-              strokeDasharray={2 * Math.PI * 38}
-              strokeDashoffset={2 * Math.PI * 38 * (1 - score.percent / 100)}
+              cx="40" cy="40" r="34" fill="none"
+              stroke="var(--positive)" strokeWidth="7" strokeLinecap="round"
+              strokeDasharray={2 * Math.PI * 34}
+              strokeDashoffset={2 * Math.PI * 34 * (1 - score.percent / 100)}
+              transform="rotate(-90 40 40)"
             />
           </svg>
           <span className="dial__label">{score.percent}%</span>
@@ -61,20 +67,6 @@ export default function Home() {
       <Card>
         <div className="ancrage-theme">{ancrage.theme}</div>
         <p className="ancrage-text">{ancrage.text}</p>
-      </Card>
-
-      <div className="section-title">Prochain palier</div>
-      <Card style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        {nextMilestone ? (
-          <>
-            <div>
-              <div style={{ fontWeight: 600, fontSize: 14.5 }}>{nextMilestone.title}</div>
-              <div className="text-secondary" style={{ fontSize: 12.5 }}>{daysToMilestone} jour{daysToMilestone > 1 ? 's' : ''} restant{daysToMilestone > 1 ? 's' : ''}</div>
-            </div>
-          </>
-        ) : (
-          <div className="text-secondary" style={{ fontSize: 13.5 }}>Tous les paliers sont atteints.</div>
-        )}
       </Card>
 
       <button className="btn hard-moment-btn" onClick={() => setShowHardMoment(true)}>

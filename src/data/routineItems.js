@@ -2,11 +2,13 @@
 // la liste a déjà été réduite au strict nécessaire.
 export const ROUTINE_ITEMS = [
   { id: 'reveil', label: 'Réveil à 5h45', section: 'matin', minVital: true, type: 'toggle' },
-  { id: 'eau', label: 'Eau', section: 'matin', minVital: true, type: 'toggle' },
-  { id: 'bible', label: 'Bible', section: 'matin', minVital: true, type: 'toggle' },
-  { id: 'lecture', label: 'Lecture', section: 'matin', minVital: true, type: 'toggle' },
+  { id: 'growth_ritual_matin', label: 'Growth Ritual', section: 'matin', minVital: true, type: 'toggle' },
   { id: 'sport', label: 'Sport', section: 'matin', minVital: true, type: 'toggle', linkTo: '/sport' },
-  { id: 'rangement_lit', label: 'Rangement du lit', section: 'matin', minVital: true, type: 'toggle' },
+  { id: 'conditionnement', label: 'Conditionnement', section: 'matin', minVital: true, type: 'toggle' },
+
+  { id: 'fin_ecran', label: "Fin d'écran à 21h30", section: 'soir', minVital: true, type: 'toggle' },
+  { id: 'growth_ritual_soir', label: 'Growth Ritual', section: 'soir', minVital: true, type: 'toggle' },
+  { id: 'brossage_dentaire', label: 'Brossage dentaire', section: 'soir', minVital: true, type: 'toggle' },
   { id: 'couche_22h', label: 'Couché à 22h', section: 'soir', minVital: true, type: 'toggle' },
 ]
 

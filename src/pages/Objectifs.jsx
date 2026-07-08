@@ -129,7 +129,7 @@ function Materiel() {
                   </div>
                 )
               })}
-              <div className="subtotal" style={{ margin: '12px -18px -18px', borderRadius: '0 0 16px 16px' }}>
+              <div className="subtotal" style={{ margin: '12px -20px -20px', borderRadius: '0 0 30px 30px' }}>
                 <span className="sub-label">Sous-total étape</span>
                 <span className="sub-val">{formatFcfa(subtotal)}</span>
               </div>

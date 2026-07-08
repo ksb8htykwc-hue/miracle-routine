@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore'
-import { createDefaultData } from '../lib/defaultData'
+import { createDefaultData, safeMerge } from '../lib/defaultData'
 import { todayKey } from '../lib/dateUtils'
 import { db, firebaseEnabled } from '../lib/firebase'
 import { TOTAL_SPORT_DAYS } from '../data/sportProgram'
@@ -31,7 +31,6 @@ function remoteDocRef(uid) {
 export function DataProvider({ children }) {
   const { user } = useAuth()
   const [data, setDataRaw] = useState(loadInitial)
-  const skipNextPush = useRef(false)
   const hydrated = useRef(false)
 
   // Toute mutation locale passe par ici pour horodater l'état (utilisé pour la réconciliation Firestore).
@@ -46,23 +45,24 @@ export function DataProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
   }, [data])
 
-  // Synchro Firestore : réconciliation initiale (le plus récent gagne) puis écoute + écriture différée.
+  // Synchro Firestore : fusion sûre (jamais de régression) puis écoute + écriture différée.
   useEffect(() => {
     if (!firebaseEnabled || !user) return
     hydrated.current = false
     const ref = remoteDocRef(user.uid)
     let cancelled = false
 
+    const applyRemote = (remote) => {
+      setDataRaw(prev => {
+        const merged = safeMerge(prev, remote)
+        return JSON.stringify(merged) === JSON.stringify(prev) ? prev : merged
+      })
+    }
+
     getDoc(ref).then(snap => {
       if (cancelled) return
       if (snap.exists()) {
-        const remote = snap.data()
-        setDataRaw(prev => {
-          if ((remote.updatedAt || 0) >= (prev.updatedAt || 0)) {
-            return { ...createDefaultData(), ...remote }
-          }
-          return prev
-        })
+        applyRemote(snap.data())
       } else {
         setDoc(ref, data).catch(() => {})
       }
@@ -73,14 +73,7 @@ export function DataProvider({ children }) {
 
     const unsub = onSnapshot(ref, snap => {
       if (!snap.exists() || snap.metadata.hasPendingWrites) return
-      const remote = snap.data()
-      setDataRaw(prev => {
-        if ((remote.updatedAt || 0) > (prev.updatedAt || 0)) {
-          skipNextPush.current = true
-          return { ...createDefaultData(), ...remote }
-        }
-        return prev
-      })
+      applyRemote(snap.data())
     })
 
     return () => { cancelled = true; unsub() }
@@ -89,7 +82,6 @@ export function DataProvider({ children }) {
 
   useEffect(() => {
     if (!firebaseEnabled || !user || !hydrated.current) return
-    if (skipNextPush.current) { skipNextPush.current = false; return }
     const ref = remoteDocRef(user.uid)
     const t = setTimeout(() => {
       setDoc(ref, data).catch(() => {})

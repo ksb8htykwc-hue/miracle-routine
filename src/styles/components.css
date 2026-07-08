@@ -28,17 +28,18 @@
 /* ---------- Nav ---------- */
 .nav {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  max-width: 560px;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  max-width: 532px;
   margin: 0 auto;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 10px 6px calc(env(safe-area-inset-bottom, 0px) + 10px);
+  padding: 10px 6px;
   background: var(--surface);
-  border-top: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 10px 10px 22px var(--sh-dark), -8px -8px 18px var(--sh-light);
   z-index: 20;
 }
 
@@ -51,21 +52,22 @@
   text-decoration: none;
   font-size: 11px;
   font-weight: 500;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  transition: color 0.15s ease;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  transition: color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .nav__item--active {
   color: var(--text);
+  box-shadow: inset 3px 3px 6px var(--sh-dark), inset -2px -2px 5px var(--sh-light);
 }
 
 /* ---------- Card ---------- */
 .card {
   background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  padding: 18px;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: 8px 8px 18px var(--sh-dark), -7px -7px 15px var(--sh-light);
 }
 
 /* ---------- Toggle ---------- */
@@ -142,67 +144,80 @@
   transform: scale(0.97);
 }
 
-/* ---------- Split-flap counter ---------- */
-.splitflap {
-  display: flex;
-  gap: 6px;
-}
-
-.flap {
-  position: relative;
+/* ---------- Cadran d'abstinence ---------- */
+.dial-outer {
+  width: 240px;
+  height: 240px;
+  max-width: 62vw;
+  max-height: 62vw;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: var(--surface);
+  padding: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 0.62em;
-  padding: 0.08em 0.14em;
-  background: linear-gradient(180deg, var(--surface-raised) 0%, var(--surface) 50%, var(--surface-raised) 100%);
-  border-radius: 10px;
-  box-shadow:
-    7px 7px 14px var(--sh-dark),
-    -6px -6px 12px var(--sh-light),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
-  overflow: hidden;
-  perspective: 240px;
 }
 
-.splitflap--lg .flap { font-size: 44px; }
-.splitflap--md .flap { font-size: 26px; }
-.splitflap--sm .flap { font-size: 18px; }
+.dial-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: inset 6px 6px 14px var(--sh-dark), inset -5px -5px 12px var(--sh-light);
+}
 
-.flap__line {
+.dial-svg {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 2px;
-  margin-top: -1px;
-  background: var(--bg);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
-  opacity: 0.65;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.flap__value {
-  display: inline-block;
-  transform-style: preserve-3d;
+.dial-progress {
+  transition: stroke-dashoffset 0.6s ease;
 }
 
-.flap--flip .flap__value {
-  animation: flap-flip 0.32s cubic-bezier(0.45, 0, 0.55, 1);
-}
-
-@keyframes flap-flip {
-  0% { transform: rotateX(0deg); opacity: 1; }
-  48% { transform: rotateX(90deg); opacity: 0.25; }
-  52% { transform: rotateX(-90deg); opacity: 0.25; }
-  100% { transform: rotateX(0deg); opacity: 1; }
-}
-
-.timeflap {
+.dial-center {
+  position: absolute;
+  inset: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+}
+
+.dial-days {
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.dial-label {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.time-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin: 18px auto 0;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: inset 3px 3px 7px var(--sh-dark), inset -2px -2px 6px var(--sh-light);
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+  width: fit-content;
 }
 
 /* ---------- Score dial ---------- */
@@ -241,23 +256,16 @@
   margin-top: 4px;
 }
 
-.hairline {
-  height: 1px;
-  background: var(--line);
-  border: none;
-  margin: 0;
-}
-
 .pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 500;
-  background: var(--surface-raised);
-  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 3px 3px 7px var(--sh-dark), -2px -2px 6px var(--sh-light);
 }
 
 .btn {
@@ -265,25 +273,30 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 18px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line);
-  background: var(--surface-raised);
+  padding: 13px 18px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--surface);
   color: var(--text);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 6px 6px 13px var(--sh-dark), -5px -5px 11px var(--sh-light);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.btn:active {
+  box-shadow: inset 3px 3px 7px var(--sh-dark), inset -2px -2px 6px var(--sh-light);
+  transform: scale(0.99);
 }
 
 .btn--primary {
-  background: var(--text);
+  background: linear-gradient(150deg, var(--text) 0%, var(--text) 100%);
   color: var(--bg);
-  border-color: var(--text);
 }
 
 .btn--danger {
   background: var(--negative-dim);
-  border-color: var(--negative);
   color: var(--negative);
 }
 
@@ -298,17 +311,18 @@
 
 textarea.field, input.field {
   width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
   font-size: 14px;
   resize: vertical;
+  box-shadow: inset 3px 3px 7px var(--sh-dark), inset -2px -2px 6px var(--sh-light);
 }
 
 textarea.field:focus, input.field:focus {
-  outline: 2px solid var(--text-secondary);
-  outline-offset: -1px;
+  outline: 2px solid var(--positive);
+  outline-offset: 1px;
 }
 
 .modal-backdrop {
