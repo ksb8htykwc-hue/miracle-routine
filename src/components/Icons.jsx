@@ -28,6 +28,10 @@ export const MoonIcon = () => (
   <svg {...base}><path d="M20 14.2A8.2 8.2 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z" /></svg>
 )
 
+export const AutoIcon = () => (
+  <svg {...base}><circle cx="12" cy="12" r="8.5" /><path d="M12 3.5a8.5 8.5 0 0 1 0 17Z" fill="currentColor" stroke="none" /></svg>
+)
+
 export const FlameIcon = () => (
   <svg {...base}><path d="M12 3s5 4.5 5 9.5a5 5 0 1 1-10 0c0-1.5.8-2.7 1.5-3.5.2 1.2 1 2 1.7 2C9.7 8.5 10.5 5.5 12 3Z" /></svg>
 )

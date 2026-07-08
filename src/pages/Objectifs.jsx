@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { useData } from '../context/DataContext'
 import { PRESCRIPTIONS } from '../data/prescriptions'
+import { MATERIEL_ETAPES, MATERIEL_ALL_ITEMS, MATERIEL_TOTAL } from '../data/materiel'
+import { formatFcfa } from '../lib/format'
 import Card from '../components/Card'
+import Toggle from '../components/Toggle'
 
 const GOAL = 500000
-
-function formatFcfa(n) {
-  return `${n.toLocaleString('fr-FR')} FCFA`
-}
 
 export default function Objectifs() {
   const [tab, setTab] = useState('finances')
@@ -16,10 +15,13 @@ export default function Objectifs() {
     <div>
       <div className="subtabs">
         <button className={`subtab ${tab === 'finances' ? 'subtab--active' : ''}`} onClick={() => setTab('finances')}>Finances</button>
+        <button className={`subtab ${tab === 'materiel' ? 'subtab--active' : ''}`} onClick={() => setTab('materiel')}>Matériel</button>
         <button className={`subtab ${tab === 'prescriptions' ? 'subtab--active' : ''}`} onClick={() => setTab('prescriptions')}>Prescriptions</button>
       </div>
 
-      {tab === 'finances' ? <Finances /> : <Prescriptions />}
+      {tab === 'finances' && <Finances />}
+      {tab === 'materiel' && <Materiel />}
+      {tab === 'prescriptions' && <Prescriptions />}
     </div>
   )
 }
@@ -82,6 +84,63 @@ function Finances() {
           )
         })}
       </Card>
+    </div>
+  )
+}
+
+function Materiel() {
+  const { data, toggleMateriel } = useData()
+  const checked = data.materiel || {}
+  const checkedTotal = MATERIEL_ALL_ITEMS
+    .filter(it => checked[it.id])
+    .reduce((sum, it) => sum + it.prix, 0)
+  const percent = Math.min(100, Math.round((checkedTotal / MATERIEL_TOTAL) * 100))
+  const hasEstimates = MATERIEL_ALL_ITEMS.some(it => it.estime)
+
+  return (
+    <div>
+      <Card neo>
+        <div className="text-secondary" style={{ fontSize: 12 }}>Acquis</div>
+        <div style={{ fontSize: 20, fontWeight: 700, marginTop: 2 }}>{formatFcfa(checkedTotal)} / {formatFcfa(MATERIEL_TOTAL)}</div>
+        <div className="progress-bar">
+          <div className="progress-bar__fill" style={{ width: `${percent}%` }} />
+        </div>
+        <div className="text-secondary" style={{ fontSize: 12, marginTop: 6 }}>{percent}% de la feuille de route</div>
+      </Card>
+
+      {MATERIEL_ETAPES.map((etape, idx) => {
+        const subtotal = etape.items.reduce((sum, it) => sum + it.prix, 0)
+        return (
+          <div key={etape.id}>
+            <div className="section-title">Étape {idx + 1} · {etape.tag}</div>
+            <Card>
+              <h3 style={{ fontSize: 15.5, fontWeight: 600, marginBottom: 4 }}>{etape.titre}</h3>
+              <p className="materiel-pourquoi">{etape.pourquoi}</p>
+              {etape.items.map(item => {
+                const isChecked = Boolean(checked[item.id])
+                return (
+                  <div key={item.id} className={`materiel-item ${isChecked ? 'materiel-item--checked' : ''}`}>
+                    <div className="materiel-item__main">
+                      <div className="materiel-item__nom">{item.nom}</div>
+                      {item.source && <div className="materiel-item__source">{item.source}</div>}
+                    </div>
+                    <div className="materiel-item__prix">{formatFcfa(item.prix)}{item.estime ? ' *' : ''}</div>
+                    <Toggle checked={isChecked} onChange={() => toggleMateriel(item.id)} />
+                  </div>
+                )
+              })}
+              <div className="subtotal" style={{ margin: '12px -18px -18px', borderRadius: '0 0 16px 16px' }}>
+                <span className="sub-label">Sous-total étape</span>
+                <span className="sub-val">{formatFcfa(subtotal)}</span>
+              </div>
+            </Card>
+          </div>
+        )
+      })}
+
+      {hasEstimates && (
+        <p className="text-secondary" style={{ fontSize: 11.5, marginTop: 14 }}>* Prix estimés, à confirmer avant achat définitif.</p>
+      )}
     </div>
   )
 }

@@ -342,3 +342,80 @@
 .prescription-item + .prescription-item {
   border-top: 1px solid var(--line);
 }
+
+/* ---------- Matériel ---------- */
+.subtotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: var(--surface-raised);
+}
+
+.sub-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.sub-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.materiel-pourquoi {
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.materiel-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 0;
+}
+
+.materiel-item + .materiel-item {
+  border-top: 1px solid var(--line);
+}
+
+.materiel-item__main {
+  flex: 1;
+  min-width: 0;
+  transition: opacity 0.2s ease;
+}
+
+.materiel-item__nom {
+  font-size: 14px;
+  transition: opacity 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.materiel-item__source {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.materiel-item__prix {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.materiel-item--checked .materiel-item__main {
+  opacity: 0.4;
+}
+
+.materiel-item--checked .materiel-item__nom {
+  text-decoration: line-through;
+}
+
+.materiel-item--checked .materiel-item__prix {
+  opacity: 0.4;
+}

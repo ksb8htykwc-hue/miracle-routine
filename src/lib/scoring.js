@@ -2,13 +2,6 @@ import { ROUTINE_ITEMS, TOTAL_ITEMS, MIN_VITAL_IDS } from '../data/routineItems'
 
 export function isItemDone(item, dayData) {
   if (!dayData) return false
-  if (item.type === 'text') {
-    return Boolean((dayData.texts?.[item.id] || '').trim())
-  }
-  if (item.type === 'kifs') {
-    const kifs = dayData.kifs || ['', '', '']
-    return kifs.every(k => k.trim().length > 0)
-  }
   return Boolean(dayData.items?.[item.id])
 }
 

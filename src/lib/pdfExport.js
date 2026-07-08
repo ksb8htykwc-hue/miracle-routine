@@ -1,6 +1,8 @@
 import jsPDF from 'jspdf'
 import { computeScore } from './scoring'
 import { SPORT_PROGRAM } from '../data/sportProgram'
+import { MATERIEL_ALL_ITEMS } from '../data/materiel'
+import { formatFcfa } from './format'
 import { MOIS } from './dateUtils'
 
 function monthDays(year, month) {
@@ -74,38 +76,6 @@ export function exportMonthToPdf(data, year, month) {
     p(`Minimum vital atteint : ${minVitalDays} jour(s)`)
   }
 
-  // Bilans écrits
-  h2('Bilans de journée')
-  const bilans = days
-    .filter(k => data.routine[k]?.texts?.bilan_ecrit?.trim())
-    .map(k => ({ key: k, text: data.routine[k].texts.bilan_ecrit.trim() }))
-  if (bilans.length === 0) {
-    p('Aucun bilan écrit ce mois-ci.')
-  } else {
-    bilans.forEach(({ key, text }) => {
-      ensureSpace(lineHeight)
-      doc.setFont('helvetica', 'bold')
-      doc.setFontSize(10)
-      doc.text(key, margin, y)
-      y += lineHeight
-      p(text)
-      y += 4
-    })
-  }
-
-  // Kifs
-  h2('3 kifs du jour')
-  const kifDays = days
-    .filter(k => (data.routine[k]?.kifs || []).some(kf => kf.trim()))
-    .map(k => ({ key: k, kifs: data.routine[k].kifs.filter(kf => kf.trim()) }))
-  if (kifDays.length === 0) {
-    p('Aucun kif enregistré ce mois-ci.')
-  } else {
-    kifDays.forEach(({ key, kifs }) => {
-      p(`${key} — ${kifs.join(' · ')}`)
-    })
-  }
-
   // Sport
   h2('Progression sport')
   const sportThisMonth = Object.entries(data.sportProgress.completions || {})
@@ -126,10 +96,24 @@ export function exportMonthToPdf(data, year, month) {
   h2('Progression financière')
   const financeEntry = data.finance.entries.find(e => e.month === monthKey)
   if (financeEntry) {
-    p(`Revenu net déclaré pour ${monthKey} : ${financeEntry.amount.toLocaleString('fr-FR')} FCFA`)
+    p(`Revenu net déclaré pour ${monthKey} : ${formatFcfa(financeEntry.amount)}`)
   } else {
     p('Aucune saisie financière pour ce mois-ci.')
   }
+
+  // Matériel
+  h2('Matériel acquis')
+  const materielChecked = data.materiel || {}
+  const materielThisMonth = MATERIEL_ALL_ITEMS.filter(it => (materielChecked[it.id] || '').startsWith(monthKey))
+  if (materielThisMonth.length === 0) {
+    p('Aucune acquisition validée ce mois-ci.')
+  } else {
+    materielThisMonth.forEach(it => p(`${materielChecked[it.id]} — ${it.nom} (${formatFcfa(it.prix)})`))
+  }
+  const materielTotalChecked = MATERIEL_ALL_ITEMS
+    .filter(it => materielChecked[it.id])
+    .reduce((s, it) => s + it.prix, 0)
+  p(`Total acquis à ce jour : ${formatFcfa(materielTotalChecked)}`)
 
   doc.save(`miracle-routine-${monthKey}.pdf`)
 }

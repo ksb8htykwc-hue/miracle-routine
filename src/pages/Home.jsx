@@ -54,10 +54,6 @@ export default function Home() {
         <div className="home-score-row__text">
           <h3>Score du jour</h3>
           <p className="text-secondary" style={{ fontSize: 13 }}>{score.done}/{score.total} habitudes cochées</p>
-          <div className="pill" style={{ marginTop: 8, borderColor: score.minVitalMet ? 'var(--positive)' : 'var(--line)', color: score.minVitalMet ? 'var(--positive)' : 'var(--text-secondary)' }}>
-            <span className="dot" style={{ background: score.minVitalMet ? 'var(--positive)' : 'var(--text-secondary)' }} />
-            Minimum vital {score.minVitalMet ? 'atteint' : 'en cours'}
-          </div>
         </div>
       </Card>
 

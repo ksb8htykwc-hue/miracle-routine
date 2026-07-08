@@ -3,6 +3,7 @@ import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore'
 import { createDefaultData } from '../lib/defaultData'
 import { todayKey } from '../lib/dateUtils'
 import { db, firebaseEnabled } from '../lib/firebase'
+import { TOTAL_SPORT_DAYS } from '../data/sportProgram'
 import { useAuth } from './AuthContext'
 
 const STORAGE_KEY = 'miracle-routine-data'
@@ -20,7 +21,7 @@ function loadInitial() {
 }
 
 function emptyDay() {
-  return { items: {}, texts: {}, kifs: ['', '', ''] }
+  return { items: {} }
 }
 
 function remoteDocRef(uid) {
@@ -101,38 +102,36 @@ export function DataProvider({ children }) {
   const setRoutineItem = useCallback((dateKey, itemId, value) => {
     setData(prev => {
       const day = prev.routine[dateKey] || emptyDay()
-      return {
+      const next = {
         ...prev,
         routine: {
           ...prev.routine,
           [dateKey]: { ...day, items: { ...day.items, [itemId]: value } },
         },
       }
+      // Cocher "Sport" dans la routine valide automatiquement la prochaine séance débloquée.
+      if (itemId === 'sport' && value) {
+        const nextSportDay = prev.sportProgress.lastCompletedDay + 1
+        if (nextSportDay <= TOTAL_SPORT_DAYS) {
+          next.sportProgress = {
+            lastCompletedDay: Math.max(prev.sportProgress.lastCompletedDay, nextSportDay),
+            completions: { ...prev.sportProgress.completions, [nextSportDay]: dateKey },
+          }
+        }
+      }
+      return next
     })
   }, [setData])
 
-  const setRoutineText = useCallback((dateKey, field, value) => {
+  const toggleMateriel = useCallback((itemId) => {
     setData(prev => {
-      const day = prev.routine[dateKey] || emptyDay()
-      return {
-        ...prev,
-        routine: {
-          ...prev.routine,
-          [dateKey]: { ...day, texts: { ...day.texts, [field]: value } },
-        },
+      const materiel = { ...prev.materiel }
+      if (materiel[itemId]) {
+        delete materiel[itemId]
+      } else {
+        materiel[itemId] = todayKey()
       }
-    })
-  }, [setData])
-
-  const setKif = useCallback((dateKey, index, value) => {
-    setData(prev => {
-      const day = prev.routine[dateKey] || emptyDay()
-      const kifs = [...(day.kifs || ['', '', ''])]
-      kifs[index] = value
-      return {
-        ...prev,
-        routine: { ...prev.routine, [dateKey]: { ...day, kifs } },
-      }
+      return { ...prev, materiel }
     })
   }, [setData])
 
@@ -182,14 +181,13 @@ export function DataProvider({ children }) {
     todayKey,
     getDay,
     setRoutineItem,
-    setRoutineText,
-    setKif,
     completeSportDay,
     addFinanceEntry,
+    toggleMateriel,
     markMilestoneSeen,
     resetStreak,
     setTheme,
-  }), [data, getDay, setRoutineItem, setRoutineText, setKif, completeSportDay, addFinanceEntry, markMilestoneSeen, resetStreak, setTheme])
+  }), [data, getDay, setRoutineItem, completeSportDay, addFinanceEntry, toggleMateriel, markMilestoneSeen, resetStreak, setTheme])
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>
 }

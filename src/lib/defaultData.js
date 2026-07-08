@@ -9,8 +9,9 @@ export function createDefaultData() {
     routine: {},
     sportProgress: { lastCompletedDay: 0, completions: {} },
     finance: { entries: [] },
+    materiel: {},
     milestonesSeen: [],
-    theme: 'dark',
+    theme: 'system',
     updatedAt: 0,
   }
 }

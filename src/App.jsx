@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { useData } from './context/DataContext'
 import { useAuth } from './context/AuthContext'
+import { useSystemTheme } from './lib/useSystemTheme'
 import Nav from './components/Nav'
 import ThemeToggle from './components/ThemeToggle'
 import MilestoneModal from './components/MilestoneModal'
@@ -16,10 +17,14 @@ import Login from './pages/Login'
 export default function App() {
   const { data } = useData()
   const { user, loading, enabled, logout } = useAuth()
+  const systemTheme = useSystemTheme()
+  const effectiveTheme = data.theme === 'system' ? systemTheme : data.theme
 
   useEffect(() => {
-    document.documentElement.dataset.theme = data.theme
-  }, [data.theme])
+    document.documentElement.dataset.theme = effectiveTheme
+    document.querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', effectiveTheme === 'light' ? '#F0F0F0' : '#0F0F0F')
+  }, [effectiveTheme])
 
   if (enabled && loading) return null
   if (enabled && !user) return <Login />
