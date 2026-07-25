@@ -48,7 +48,7 @@ export default function Heatmap({ data }) {
                   key={di}
                   title={dateStr}
                   className={`w-[10px] h-[10px] rounded-[2px] ${
-                    done ? 'bg-accent' : 'bg-white/[0.06]'
+                    done ? 'bg-accent' : 'bg-glass-dot'
                   }`}
                 />
               )
