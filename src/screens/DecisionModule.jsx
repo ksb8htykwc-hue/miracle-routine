@@ -39,14 +39,14 @@ export default function DecisionModule({ decisions, onAdd, onBack }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Nom du projet ou de l’achat"
-            className="rounded-xl bg-white/[0.05] border border-white/10 px-3 py-2 text-sm text-fg placeholder:text-fg-dim outline-none focus:border-accent/60"
+            className="rounded-xl bg-glass-sm border border-glass px-3 py-2 text-sm text-fg placeholder:text-fg-dim outline-none focus:border-accent/60"
           />
           <textarea
             value={criterion}
             onChange={(e) => setCriterion(e.target.value)}
             placeholder="Critère de succès mesurable et daté"
             rows={2}
-            className="resize-none rounded-xl bg-white/[0.05] border border-white/10 px-3 py-2 text-sm text-fg placeholder:text-fg-dim outline-none focus:border-accent/60"
+            className="resize-none rounded-xl bg-glass-sm border border-glass px-3 py-2 text-sm text-fg placeholder:text-fg-dim outline-none focus:border-accent/60"
           />
           <label className="text-[11px] text-fg-dim">
             Date de bilan
@@ -54,7 +54,7 @@ export default function DecisionModule({ decisions, onAdd, onBack }) {
               type="date"
               value={reviewDate}
               onChange={(e) => setReviewDate(e.target.value)}
-              className="mt-1 w-full rounded-xl bg-white/[0.05] border border-white/10 px-3 py-2 text-sm text-fg outline-none focus:border-accent/60"
+              className="mt-1 w-full rounded-xl bg-glass-sm border border-glass px-3 py-2 text-sm text-fg outline-none focus:border-accent/60"
             />
           </label>
           <button
@@ -66,7 +66,7 @@ export default function DecisionModule({ decisions, onAdd, onBack }) {
         </form>
 
         {sorted.length > 0 && (
-          <div className="mt-6 divide-y divide-white/10">
+          <div className="mt-6 divide-y divide-glass">
             {sorted.map((d) => (
               <div key={d.id} className="py-3 first:pt-0 last:pb-0">
                 <p className="text-sm font-semibold text-fg">{d.name}</p>

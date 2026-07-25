@@ -41,7 +41,7 @@ export default function PrivateModule({ privateData, onChangeEntry, onChangeNote
           <h1 className="text-xs font-bold tracking-[0.15em] text-fg-dim">ESPACE PRIVÉ</h1>
         </div>
 
-        <div className="mt-4 rounded-2xl border border-white/8 bg-white/[0.03] p-4 text-center">
+        <div className="mt-4 rounded-2xl border border-glass-faint bg-glass-xs p-4 text-center">
           <p className="text-[10px] text-fg-dim/50 tracking-widest uppercase mb-2">Abstinence</p>
           <div className="flex items-end justify-center gap-3">
             <div className="flex flex-col items-center">
@@ -103,7 +103,7 @@ export default function PrivateModule({ privateData, onChangeEntry, onChangeNote
               {weeks.map((w) => {
                 const entry = monthData.entries[w.key] || EMPTY_ENTRY
                 return (
-                  <tr key={w.key} className="border-t border-white/5 align-top">
+                  <tr key={w.key} className="border-t border-glass-faint align-top">
                     <td className="pr-2 py-2 text-[11px] text-fg-dim whitespace-nowrap">{w.label}</td>
                     {['kegel', 'sport', 'coucher'].map((field) => (
                       <td key={field} className="px-2 py-2">
@@ -121,7 +121,7 @@ export default function PrivateModule({ privateData, onChangeEntry, onChangeNote
                         min={0}
                         value={entry.porno}
                         onChange={(e) => onChangeEntry(key, w.key, { ...entry, porno: Math.max(0, Number(e.target.value) || 0) })}
-                        className="w-12 rounded-lg bg-white/[0.05] border border-white/10 px-2 py-1 text-sm text-fg outline-none"
+                        className="w-12 rounded-lg bg-glass-sm border border-glass px-2 py-1 text-sm text-fg outline-none"
                       />
                     </td>
                     <td className="pl-2 py-2">
@@ -130,7 +130,7 @@ export default function PrivateModule({ privateData, onChangeEntry, onChangeNote
                         value={entry.victoire}
                         onChange={(e) => onChangeEntry(key, w.key, { ...entry, victoire: e.target.value })}
                         placeholder="—"
-                        className="w-32 rounded-lg bg-white/[0.05] border border-white/10 px-2 py-1 text-sm text-fg placeholder:text-fg-dim outline-none"
+                        className="w-32 rounded-lg bg-glass-sm border border-glass px-2 py-1 text-sm text-fg placeholder:text-fg-dim outline-none"
                       />
                     </td>
                   </tr>
@@ -146,7 +146,7 @@ export default function PrivateModule({ privateData, onChangeEntry, onChangeNote
             value={monthData.note}
             onChange={(e) => onChangeNote(key, e.target.value)}
             rows={3}
-            className="mt-1 w-full resize-none rounded-xl bg-white/[0.05] border border-white/10 px-3 py-2 text-sm text-fg outline-none focus:border-accent/60"
+            className="mt-1 w-full resize-none rounded-xl bg-glass-sm border border-glass px-3 py-2 text-sm text-fg outline-none focus:border-accent/60"
           />
         </label>
       </GlassPanel>

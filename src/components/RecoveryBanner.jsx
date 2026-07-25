@@ -9,7 +9,7 @@ export default function RecoveryBanner({ fronts, onDoMinimal }) {
         2 jours sans geste{fronts.length > 1 ? ', sur plusieurs fronts' : ''}. La version 1 minute suffit — ou continue plus bas si ce n’est pas le moment.
       </p>
 
-      <div className="mt-3 divide-y divide-white/10">
+      <div className="mt-3 divide-y divide-glass">
         {fronts.map((front) => (
           <div key={front.id} className="py-3 first:pt-0 last:pb-0">
             <p className="text-sm font-semibold text-fg">{front.name}</p>

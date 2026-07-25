@@ -39,7 +39,7 @@ export default function FrontSection({ front, frontData, onChange, onOpenTfm }) 
         onChange={(e) => setText(e.target.value)}
         placeholder={GESTE_PROMPT}
         rows={2}
-        className="mt-3 w-full resize-none rounded-xl bg-white/[0.05] border border-white/10 px-3 py-2 text-sm text-fg placeholder:text-fg-dim outline-none focus:border-accent/60"
+        className="mt-3 w-full resize-none rounded-xl bg-glass-sm border border-glass px-3 py-2 text-sm text-fg placeholder:text-fg-dim outline-none focus:border-accent/60"
       />
 
       <button
@@ -49,8 +49,8 @@ export default function FrontSection({ front, frontData, onChange, onOpenTfm }) 
           entry.done
             ? 'bg-accent text-bg shadow-[0_0_20px_rgba(255,60,0,0.35)]'
             : canCheck
-              ? 'bg-white/[0.06] text-fg border border-white/15'
-              : 'bg-white/[0.03] text-fg-dim border border-white/5'
+              ? 'bg-glass-md text-fg border border-glass'
+              : 'bg-glass-xs text-fg-dim border border-glass-faint'
         }`}
       >
         {entry.done ? 'Fait aujourd’hui' : 'Marquer comme fait'}

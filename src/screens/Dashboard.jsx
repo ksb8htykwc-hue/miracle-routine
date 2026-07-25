@@ -25,7 +25,7 @@ export default function Dashboard({ frontsData, onChangeFront, onOpenTfm, onOpen
           </div>
         )}
 
-        <div className="mt-4 divide-y divide-white/10">
+        <div className="mt-4 divide-y divide-glass">
           {FRONTS.map((front) => (
             <FrontSection
               key={front.id}

@@ -9,6 +9,74 @@
   --font-sans: "Archivo", sans-serif;
 }
 
+/* Glass tint tokens — dark mode defaults */
+:root {
+  --glass-xs: rgba(255, 255, 255, 0.03);
+  --glass-sm: rgba(255, 255, 255, 0.05);
+  --glass-md: rgba(255, 255, 255, 0.06);
+  --glass-dark: rgba(0, 0, 0, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-top: rgba(255, 255, 255, 0.2);
+  --glass-border-faint: rgba(255, 255, 255, 0.05);
+  --glass-divide: rgba(255, 255, 255, 0.1);
+}
+
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: #f0f3f5;
+    --color-bg-private: #e5eaed;
+    --color-fg: #1c1f20;
+    --color-fg-dim: #6b6e70;
+
+    --glass-xs: rgba(0, 0, 0, 0.03);
+    --glass-sm: rgba(255, 255, 255, 0.55);
+    --glass-md: rgba(255, 255, 255, 0.65);
+    --glass-dark: rgba(255, 255, 255, 0.4);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-border-top: rgba(255, 255, 255, 0.9);
+    --glass-border-faint: rgba(0, 0, 0, 0.05);
+    --glass-divide: rgba(0, 0, 0, 0.07);
+  }
+
+  html,
+  body,
+  #root {
+    background: linear-gradient(135deg, #e8eef3 0%, #f5f0ec 60%, #eff0f5 100%);
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .bg-glass-xs {
+    background-color: var(--glass-xs);
+  }
+  .bg-glass-sm {
+    background-color: var(--glass-sm);
+  }
+  .bg-glass-md {
+    background-color: var(--glass-md);
+  }
+  .bg-glass-dark {
+    background-color: var(--glass-dark);
+  }
+  .border-glass {
+    border-color: var(--glass-border);
+  }
+  .border-t-glass {
+    border-top-color: var(--glass-border-top);
+  }
+  .border-glass-faint {
+    border-color: var(--glass-border-faint);
+  }
+  .border-t-glass-faint {
+    border-top-color: var(--glass-border-faint);
+  }
+  .divide-glass > * + * {
+    border-color: var(--glass-divide);
+  }
+}
+
 html,
 body,
 #root {

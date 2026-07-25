@@ -62,7 +62,7 @@ export default function TFMView({ tfmDay, onComplete, onSetCursor, onBack }) {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl bg-white/[0.05] border border-white/10 px-3 py-2 text-sm text-fg flex items-center justify-between"
+                className="rounded-xl bg-glass-sm border border-glass px-3 py-2 text-sm text-fg flex items-center justify-between"
               >
                 <span>{link.label}</span>
                 <span className="text-accent text-xs">ouvrir →</span>
@@ -82,7 +82,7 @@ export default function TFMView({ tfmDay, onComplete, onSetCursor, onBack }) {
             <button
               type="button"
               onClick={() => onSetCursor(clampedView)}
-              className="mt-6 w-full rounded-xl bg-white/[0.06] border border-white/15 text-fg py-3 text-sm font-semibold"
+              className="mt-6 w-full rounded-xl bg-glass-md border border-glass text-fg py-3 text-sm font-semibold"
             >
               Reprendre le programme ici
             </button>
