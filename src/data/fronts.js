@@ -13,8 +13,8 @@ export const FRONTS = [
   },
   {
     id: 'corps',
-    name: 'Corps & compétences dures',
-    subtitle: 'Sport/TFM, Excel, Illustrator, dactylographie',
+    name: 'Sport/TFM',
+    subtitle: 'Excel, Illustrator, dactylographie',
     minimal: 'Fais un push-up, ou ouvre Illustrator 60 secondes.',
   },
 ]

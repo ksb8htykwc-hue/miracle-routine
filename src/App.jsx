@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import { useStoredState } from './lib/useStoredState.js'
 import { frontsNeedingRecovery } from './lib/neverMissTwice.js'
 import Dashboard from './screens/Dashboard.jsx'
-import Recovery from './screens/Recovery.jsx'
 import TFMView from './screens/TFMView.jsx'
 import DecisionModule from './screens/DecisionModule.jsx'
 import PrivateModule from './screens/PrivateModule.jsx'
@@ -38,6 +37,10 @@ export default function App() {
     setTfmDay((d) => Math.min(d + 1, 61))
   }
 
+  function setTfmCursor(day) {
+    setTfmDay(day)
+  }
+
   function addDecision(decision) {
     setDecisions((prev) => [...prev, decision])
   }
@@ -59,20 +62,12 @@ export default function App() {
     }))
   }
 
-  if (screen === 'dashboard' && recoveryFronts.length > 0) {
-    return (
-      <Recovery
-        fronts={recoveryFronts}
-        onDoMinimal={doMinimal}
-      />
-    )
-  }
-
   if (screen === 'tfm') {
     return (
       <TFMView
         tfmDay={tfmDay}
         onComplete={completeTfm}
+        onSetCursor={setTfmCursor}
         onBack={() => setScreen('dashboard')}
       />
     )
@@ -108,6 +103,8 @@ export default function App() {
       onOpenTfm={() => setScreen('tfm')}
       onOpenDecision={() => setScreen('decision')}
       onOpenPrivate={() => setScreen('private')}
+      recoveryFronts={recoveryFronts}
+      onDoMinimal={doMinimal}
     />
   )
 }

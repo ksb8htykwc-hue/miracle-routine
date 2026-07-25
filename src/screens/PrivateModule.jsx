@@ -1,10 +1,28 @@
+import { useEffect, useState } from 'react'
 import GlassPanel from '../components/GlassPanel.jsx'
 import { monthLabel } from '../lib/dates.js'
 import { weeksInMonth, QUARTER_CAPS } from '../lib/privateWeeks.js'
 
 const EMPTY_ENTRY = { kegel: false, sport: false, coucher: false, porno: 0, victoire: '' }
 
+const ABSTINENCE_START = new Date('2026-07-25T00:00:00')
+
+function useAbstinenceTimer() {
+  const [elapsed, setElapsed] = useState(() => Date.now() - ABSTINENCE_START.getTime())
+  useEffect(() => {
+    const id = setInterval(() => setElapsed(Date.now() - ABSTINENCE_START.getTime()), 1000)
+    return () => clearInterval(id)
+  }, [])
+  const totalSecs = Math.floor(elapsed / 1000)
+  const days = Math.floor(totalSecs / 86400)
+  const hours = Math.floor((totalSecs % 86400) / 3600)
+  const mins = Math.floor((totalSecs % 3600) / 60)
+  const secs = totalSecs % 60
+  return { days, hours, mins, secs }
+}
+
 export default function PrivateModule({ privateData, onChangeEntry, onChangeNote, onBack, monthOffset, setMonthOffset }) {
+  const { days, hours, mins, secs } = useAbstinenceTimer()
   const base = new Date()
   base.setDate(1)
   base.setMonth(base.getMonth() + monthOffset)
@@ -21,6 +39,28 @@ export default function PrivateModule({ privateData, onChangeEntry, onChangeNote
             ← Retour
           </button>
           <h1 className="text-xs font-bold tracking-[0.15em] text-fg-dim">ESPACE PRIVÉ</h1>
+        </div>
+
+        <div className="mt-4 rounded-2xl border border-white/8 bg-white/[0.03] p-4 text-center">
+          <p className="text-[10px] text-fg-dim/50 tracking-widest uppercase mb-2">Abstinence</p>
+          <div className="flex items-end justify-center gap-3">
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-bold text-fg tabular-nums">{days}</span>
+              <span className="text-[9px] text-fg-dim/50 mt-0.5">j</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-bold text-fg tabular-nums">{String(hours).padStart(2,'0')}</span>
+              <span className="text-[9px] text-fg-dim/50 mt-0.5">h</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-bold text-fg tabular-nums">{String(mins).padStart(2,'0')}</span>
+              <span className="text-[9px] text-fg-dim/50 mt-0.5">min</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-xl font-bold text-fg-dim/40 tabular-nums">{String(secs).padStart(2,'0')}</span>
+              <span className="text-[9px] text-fg-dim/50 mt-0.5">s</span>
+            </div>
+          </div>
         </div>
 
         <div className="mt-4 text-[10px] text-fg-dim/60 leading-relaxed">

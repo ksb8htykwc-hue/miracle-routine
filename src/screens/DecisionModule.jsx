@@ -59,7 +59,7 @@ export default function DecisionModule({ decisions, onAdd, onBack }) {
           </label>
           <button
             type="submit"
-            className="mt-2 w-full rounded-xl bg-accent text-bg py-3 text-sm font-semibold"
+            className="mt-2 w-full rounded-xl bg-accent text-bg py-3 text-sm font-semibold shadow-[0_0_20px_rgba(255,60,0,0.35)]"
           >
             Enregistrer
           </button>

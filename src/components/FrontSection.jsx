@@ -47,7 +47,7 @@ export default function FrontSection({ front, frontData, onChange, onOpenTfm }) 
         onClick={toggleDone}
         className={`mt-3 w-full rounded-xl py-3 text-sm font-semibold transition-colors ${
           entry.done
-            ? 'bg-accent text-bg'
+            ? 'bg-accent text-bg shadow-[0_0_20px_rgba(255,60,0,0.35)]'
             : canCheck
               ? 'bg-white/[0.06] text-fg border border-white/15'
               : 'bg-white/[0.03] text-fg-dim border border-white/5'

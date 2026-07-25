@@ -1,8 +1,9 @@
 import GlassPanel from '../components/GlassPanel.jsx'
 import FrontSection from '../components/FrontSection.jsx'
+import RecoveryBanner from '../components/RecoveryBanner.jsx'
 import { FRONTS } from '../data/fronts.js'
 
-export default function Dashboard({ frontsData, onChangeFront, onOpenTfm, onOpenDecision, onOpenPrivate }) {
+export default function Dashboard({ frontsData, onChangeFront, onOpenTfm, onOpenDecision, onOpenPrivate, recoveryFronts, onDoMinimal }) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-10">
       <GlassPanel>
@@ -17,6 +18,12 @@ export default function Dashboard({ frontsData, onChangeFront, onOpenTfm, onOpen
             ⋯
           </button>
         </div>
+
+        {recoveryFronts.length > 0 && (
+          <div className="mt-4">
+            <RecoveryBanner fronts={recoveryFronts} onDoMinimal={onDoMinimal} />
+          </div>
+        )}
 
         <div className="mt-4 divide-y divide-white/10">
           {FRONTS.map((front) => (
